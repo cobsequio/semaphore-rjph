@@ -1,0 +1,40 @@
+---
+- name: Install TightVNC on Windows with admin and VNC authentication password
+  hosts: windows  # Replace with your target host/group in the inventory
+  gather_facts: false
+  tasks:
+    - name: Install TightVNC using Chocolatey
+      win_chocolatey:
+        name: tightvnc
+        state: present
+      become: true
+
+    - name: Set TightVNC admin password
+      win_registry:
+        path: 'HKLM:\SOFTWARE\TightVNC\Server'
+        name: AdminPassword
+        data: 'F0rs4f3gu4rding'
+        type: string
+        state: present
+      become: true
+
+    - name: Set VNC authentication password
+      win_registry:
+        path: 'HKLM:\SOFTWARE\TightVNC\Server'
+        name: Password
+        data: 'F0rs4f3gu4rding'
+        type: string
+        state: present
+      become: true
+
+    - name: Ensure TightVNC service is started
+      win_service:
+        name: tvnserver
+        state: started
+      become: true
+
+    - name: Ensure TightVNC service is set to start automatically
+      win_service:
+        name: tvnserver
+        start_mode: auto
+      become: true
