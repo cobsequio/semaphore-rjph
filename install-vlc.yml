@@ -3,5 +3,10 @@
   hosts: windows  # The target host/group in your inventory
   become: true    # Use privilege escalation (run as administrator)
   tasks:
-    - name: Install VLC via WinGet
-      win_command: "winget install VLC"
+    - name: Install Chocolatey
+      win_chocolatey_facts:
+
+    - name: Install VLC via Chocolatey
+      win_chocolatey:
+        name: vlc
+        state: present
