@@ -1,0 +1,7 @@
+---
+- name: Install VLC on Windows 11
+  hosts: windows  # The target host/group in your inventory
+  become: true    # Use privilege escalation (run as administrator)
+  tasks:
+    - name: Install VLC via WinGet
+      win_command: "winget install VLC"
