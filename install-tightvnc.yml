@@ -10,7 +10,7 @@
       become: true
 
     - name: Set TightVNC admin password
-      win_registry:
+      ansible.windows.win_registry:
         path: 'HKLM:\SOFTWARE\TightVNC\Server'
         name: AdminPassword
         data: 'F0rs4f3gu4rding'
@@ -19,7 +19,7 @@
       become: true
 
     - name: Set VNC authentication password
-      win_registry:
+      ansible.windows.win_registry:
         path: 'HKLM:\SOFTWARE\TightVNC\Server'
         name: Password
         data: 'F0rs4f3gu4rding'
