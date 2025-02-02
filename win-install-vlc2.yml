@@ -1,0 +1,14 @@
+---
+- name: Install VLC on Windows 11
+  hosts: windows  # The target host/group in your inventory
+  become: true    # Use privilege escalation (run as administrator)
+  tasks:
+    - name: Download VLC installer
+      win_get_url:
+        url: https://get.videolan.org/vlc/last/win64/vlc-3.0.11-win64.exe
+        dest: C:\Temp\vlc-installer.exe
+
+    - name: Install VLC
+      win_command: C:\Temp\vlc-installer.exe /S
+      args:
+        creates: C:\Program Files\VideoLAN\VLC\vlc.exe  # Check if VLC is already installed
