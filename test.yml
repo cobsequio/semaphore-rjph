@@ -1,1 +1,16 @@
-test
+---
+- name: Update Kali Linux
+  hosts: kali_hosts  # Define the group of hosts you want to target
+  become: true  # Use privilege escalation (sudo) to update the system
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600  # Cache validity time in seconds (1 hour)
+
+    - name: Upgrade all packages
+      ansible.builtin.apt:
+        upgrade: yes
+        autoremove: yes
+        autoclean: yes
+
