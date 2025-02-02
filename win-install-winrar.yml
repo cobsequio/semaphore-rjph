@@ -1,0 +1,14 @@
+---
+- name: Install WinRAR on Windows 11
+  hosts: windows  # The target host/group in your inventory
+  become: true    # Run as administrator
+  tasks:
+    - name: Download WinRAR installer
+      win_get_url:
+        url: https://www.rarlab.com/rar/winrar-x64-601.exe
+        dest: C:\Temp\winrar-installer.exe
+
+    - name: Install WinRAR
+      win_command: C:\Temp\winrar-installer.exe /S
+      args:
+        creates: C:\Program Files\WinRAR\WinRAR.exe  # Ensure it's installed
