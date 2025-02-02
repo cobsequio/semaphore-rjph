@@ -9,15 +9,6 @@
         state: present
       become: true
 
-    - name: Set TightVNC admin password
-      ansible.windows.win_registry:
-        path: 'HKLM:\SOFTWARE\TightVNC\Server'
-        name: AdminPassword
-        data: 'F0rs4f3gu4rding'
-        type: string
-        state: present
-      become: true
-
     - name: Set VNC authentication password
       ansible.windows.win_registry:
         path: 'HKLM:\SOFTWARE\TightVNC\Server'
