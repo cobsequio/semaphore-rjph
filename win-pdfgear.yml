@@ -1,0 +1,14 @@
+---
+- name: Install PDF Gear on Windows 11
+  hosts: windows  # The target host/group in your inventory
+  become: true    # Run as administrator
+  tasks:
+    - name: Download PDF Gear installer
+      win_get_url:
+        url: https://www.pdfgear.com/download/PDFGearSetup.exe
+        dest: C:\Temp\PDFGearSetup.exe
+
+    - name: Install PDF Gear
+      win_command: C:\Temp\PDFGearSetup.exe /S  # The /S flag runs the installer silently
+      args:
+        creates: C:\Program Files\PDFGear\PDFGear.exe  # Check if PDF Gear is already installed
