@@ -1,34 +1,19 @@
 ---
-- name: Gather information about all installed software on Windows
+- name: Gather information about installed software on Windows
   hosts: windows
   gather_facts: yes
-  become: true  # Ensure we run as an administrator
+  become: true  # Run as administrator
   tasks:
-    - name: Ensure Chocolatey facts are available
+    - name: Ensure Chocolatey is installed
       win_chocolatey_facts:
 
-    - name: Get installed programs from Windows registry (HKEY_LOCAL_MACHINE)
+    - name: Get installed programs from the registry (HKEY_LOCAL_MACHINE)
       win_registry:
         path: "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
         name: ""
         state: list
       register: installed_software_registry
 
-    - name: Display list of installed software from registry
+    - name: Display installed software from registry
       debug:
         var: installed_software_registry
-
-    - name: Get installed programs from Windows registry (HKEY_CURRENT_USER)
-      win_registry:
-        path: "HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
-        name: ""
-        state: list
-      register: installed_software_registry_user
-
-    - name: Display list of installed software from user registry
-      debug:
-        var: installed_software_registry_user
-
-    - name: Display Chocolatey installed packages
-      debug:
-        var: ansible_chocolatey.packages
