@@ -1,19 +1,24 @@
 ---
-- name: Gather information about installed software on Windows
-  hosts: windows
-  gather_facts: yes
-  become: true  # Run as administrator
+- name: Get list of installed software on Windows
+  hosts: windows  # Define your target host(s)
+  gather_facts: no
   tasks:
-    - name: Ensure Chocolatey is installed
-      win_chocolatey_facts:
-
-    - name: Get installed programs from the registry (HKEY_LOCAL_MACHINE)
+    - name: Get installed software (32-bit)
       win_registry:
         path: "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
-        name: ""
         state: list
-      register: installed_software_registry
+      register: installed_software_32bit
 
-    - name: Display installed software from registry
+    - name: Get installed software (64-bit)
+      win_registry:
+        path: "HKLM:\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
+        state: list
+      register: installed_software_64bit
+
+    - name: Combine both 32-bit and 64-bit installed software
+      set_fact:
+        installed_software: "{{ installed_software_32bit.value + installed_software_64bit.value }}"
+
+    - name: Display installed software
       debug:
-        var: installed_software_registry
+        var: installed_software
