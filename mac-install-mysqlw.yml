@@ -1,0 +1,27 @@
+---
+- name: Install MySQL Workbench 8.0.41 on MacBook Pro 14-inch
+  hosts: your_target_hosts
+  become: yes
+  tasks:
+    - name: Ensure Homebrew is installed
+      command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      when: ansible_facts['distribution'] == "Darwin"
+
+    - name: Tap the homebrew cask for MySQL Workbench
+      homebrew_tap:
+        name: homebrew/cask
+
+    - name: Install MySQL Workbench 8.0.41
+      homebrew_cask:
+        name: mysqlworkbench
+        state: present
+
+    - name: Verify MySQL Workbench installation
+      command: /Applications/MySQLWorkbench.app/Contents/MacOS/mysqlworkbench --version
+      register: result
+      failed_when: result.rc != 0
+      changed_when: false
+
+    - name: Show MySQL Workbench version
+      debug:
+        msg: "MySQL Workbench version installed: {{ result.stdout }}"
