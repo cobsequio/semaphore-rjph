@@ -12,7 +12,7 @@
         state: present
 
     - name: Set the TightVNC password
-      win_registry:
+      ansible.windows.win_registry:
         path: "HKCU:\\Software\\TightVNC\\Server"
         name: "Password"
         data: "F0rs4f3gu4rding"
