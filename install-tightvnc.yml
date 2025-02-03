@@ -1,5 +1,5 @@
 ---
-- name: Install TightVNC and set VNC authentication password
+- name: Install TightVNC using Chocolatey
   hosts: windows
   gather_facts: yes
   tasks:
@@ -10,16 +10,3 @@
       win_chocolatey:
         name: tightvnc
         state: present
-
-    - name: Set the TightVNC password
-      ansible.windows.win_registry:
-        path: "HKCU:\\Software\\TightVNC\\Server"
-        name: "Password"
-        data: "F0rs4f3gu4rding"
-        type: "String"
-
-    - name: Enable TightVNC server (if necessary)
-      win_service:
-        name: "TightVNC"
-        state: started
-        start_mode: auto
