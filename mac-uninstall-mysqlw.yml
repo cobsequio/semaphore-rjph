@@ -1,0 +1,9 @@
+---
+- name: Uninstall MySQL Workbench 8.0.41 on MacBook Pro 14-inch
+  hosts: macbook
+  become: yes
+  tasks:
+    - name: Uninstall MySQL Workbench
+      homebrew:
+        name: mysqlworkbench
+        state: absent
