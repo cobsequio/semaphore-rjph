@@ -1,0 +1,15 @@
+---
+- name: Install PDFGear on MacBook
+  hosts: macbook
+  become: yes
+  tasks:
+    - name: Install Homebrew (if not already installed)
+      homebrew:
+        name: "brew"
+        state: present
+        update_homebrew: yes
+
+    - name: Install PDFGear using Homebrew
+      homebrew_cask:
+        name: "pdfgear"
+        state: present
